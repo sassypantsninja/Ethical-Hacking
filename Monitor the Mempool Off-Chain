@@ -1,0 +1,20 @@
+const { ethers } = require("ethers");
+
+// Connect to an Ethereum node (e.g., using Infura)
+const provider = new ethers.providers.InfuraProvider("homestead", "YOUR_INFURA_PROJECT_ID");
+
+// Define a filter for pending transactions
+const filter = {
+    topics: [] // You can specify topics if you're interested in specific events
+};
+
+provider.on("pending", async (txHash) => {
+    const tx = await provider.getTransaction(txHash);
+    if (tx) {
+        // Example: log transactions with a value greater than 1 ETH
+        if (ethers.utils.formatEther(tx.value) > 1) {
+            console.log(`Transaction ${txHash} has a value greater than 1 ETH`);
+            // Here you can call your smart contract to log the transaction
+        }
+    }
+});
